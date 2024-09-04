@@ -1,7 +1,8 @@
 package org.suspensive.lovepdfnonreactive.domain.models.dto;
 
-import io.micrometer.common.lang.NonNull;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-public record AuthLoginRequestDTO(@NonNull String email,
-                                  @NonNull String password) {
+public record AuthLoginRequestDTO(@Email @NotBlank String email,
+                                   @NotBlank String password) {
 }

@@ -2,8 +2,8 @@ package org.suspensive.lovepdfnonreactive.infraestructure.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.suspensive.lovepdfnonreactive.domain.models.Role;
 import org.suspensive.lovepdfnonreactive.infraestructure.config.security.filter.JwtFilter;
 import org.suspensive.lovepdfnonreactive.infraestructure.utils.JwtUtils;
 
@@ -38,14 +39,15 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
+                    http.requestMatchers(HttpMethod.GET, "user/hello").hasRole(Role.DEFAULT_ROLE.getRoleName());
                     http.anyRequest().permitAll();
                 })
-                .addFilterBefore(new JwtFilter(jwtUtils), BasicAuthenticationFilter.class)
+                .addFilterAfter(new JwtFilter(jwtUtils), BasicAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
-    AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService){
+    DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService){
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());

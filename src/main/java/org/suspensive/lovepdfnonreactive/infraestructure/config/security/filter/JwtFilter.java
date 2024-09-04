@@ -6,17 +6,20 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import io.micrometer.common.lang.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.suspensive.lovepdfnonreactive.infraestructure.config.security.SecurityConfig;
 import org.suspensive.lovepdfnonreactive.infraestructure.utils.JwtUtils;
 
 import java.io.IOException;
 import java.util.Collection;
 
+@Slf4j
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
 
