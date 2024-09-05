@@ -1,5 +1,6 @@
 package org.suspensive.lovepdfnonreactive.infraestructure.controllers;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +9,7 @@ import org.suspensive.lovepdfnonreactive.application.services.PDFService;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.MaximumSizeExceededException;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.PDFMergerException;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.PDFNotLoadedException;
+import org.suspensive.lovepdfnonreactive.domain.models.exceptions.PDFSplitterException;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
@@ -21,15 +23,19 @@ public class PDFController {
         this.pdfService = pdfService;
     }
 
-    @PostMapping(value = "/merge",consumes = {"multipart/form-data"}, produces = "application/pdf")
+    @PostMapping(value = "/merge", consumes = {"multipart/form-data"}, produces = "application/pdf")
     public byte[] mergePDFs(@RequestParam("pdf1") MultipartFile pdf1,
                             @RequestParam("pdf2") MultipartFile pdf2) throws MaximumSizeExceededException, IOException, PDFNotLoadedException, PDFMergerException {
-        //Exception to handle when the file is deleted from tomcat server
+        // Exception to handle when the file is deleted from tomcat server
         try {
             return pdfService.mergePDFs(pdf1, pdf2);
-        }catch (NoSuchFileException e){
+        } catch (NoSuchFileException e) {
             return null;
         }
     }
 
+    @PostMapping(value = "/split/{pageToSplit}", consumes = {"multipart/form-data"}, produces = "application/zip")
+    public byte[] splitPDF(@RequestParam("pdf") MultipartFile pdf, @PathVariable int pageToSplit) throws MaximumSizeExceededException, IOException, PDFNotLoadedException, PDFSplitterException {
+        return pdfService.splitPDF(pdf, pageToSplit);
+    }
 }
