@@ -1,4 +1,4 @@
-package org.suspensive.lovepdfnonreactive.domain.ports.input.pdf;
+package org.suspensive.lovepdfnonreactive.domain.ports.input.utils;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.web.multipart.MultipartFile;

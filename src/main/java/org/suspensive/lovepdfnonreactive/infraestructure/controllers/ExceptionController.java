@@ -2,11 +2,8 @@ package org.suspensive.lovepdfnonreactive.infraestructure.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.*;
 
 @RestControllerAdvice
@@ -34,6 +31,16 @@ public class ExceptionController {
     @ExceptionHandler({PDFNotLoadedException.class})
     public ResponseEntity<String> handlePDFNotLoadedException(PDFNotLoadedException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({PDFSplitterException.class})
+    public ResponseEntity<String> handlePDFSplitterException(PDFSplitterException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({PDFRemovePagesException.class})
+    public ResponseEntity<String> handlePDFRemovePagesException(PDFRemovePagesException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

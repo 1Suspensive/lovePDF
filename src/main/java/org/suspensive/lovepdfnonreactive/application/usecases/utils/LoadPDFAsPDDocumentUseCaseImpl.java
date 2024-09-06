@@ -1,4 +1,4 @@
-package org.suspensive.lovepdfnonreactive.application.usecases.pdf;
+package org.suspensive.lovepdfnonreactive.application.usecases.utils;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.MaximumSizeExceededException;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.PDFNotLoadedException;
-import org.suspensive.lovepdfnonreactive.domain.ports.input.pdf.LoadPDFAsPDDocumentUseCase;
+import org.suspensive.lovepdfnonreactive.domain.ports.input.utils.LoadPDFAsPDDocumentUseCase;
 
 import java.io.IOException;
 
