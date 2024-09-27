@@ -11,7 +11,6 @@ import org.suspensive.lovepdfnonreactive.domain.ports.output.UserPersistencePort
 import java.io.IOException;
 
 @Component
-@Slf4j
 public class UploadPDFUseCaseImpl implements UploadPDFUseCase {
     private final UserPersistencePort userPersistencePort;
 
@@ -27,7 +26,6 @@ public class UploadPDFUseCaseImpl implements UploadPDFUseCase {
         if (user.getPdfs().containsKey(fileName)) {
             return false;
         }
-        log.info(username);
         user.getPdfs().put(fileName, pdf);
         userPersistencePort.saveUser(user);
         return true;

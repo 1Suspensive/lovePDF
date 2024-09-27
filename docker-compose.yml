@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+    lovePDF:
+      image: love-pdf-api-image
+      environment:
+        SPRING_DATA_MONGODB_DATABASE: lovePDF
+        SPRING_DATA_MONGODB_USERNAME: admin
+        SPRING_DATA_MONGODB_PASSWORD: admin
+      build:
+          context: .
+          dockerfile: Dockerfile
+      ports:
+        - "8080:8080"
+      depends_on:
+        - lovePDFdb
+
+    lovePDFdb:
+      image: mongo:latest
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: admin
+        MONGO_INITDB_ROOT_PASSWORD: admin
+        MONGO_INITDB_DATABASE: lovePDF
+      ports:
+        - "27017:27017"
+      volumes:
+        - mongo-data-volume:/data:/data/db
+
+volumes:
+    mongo-data-volume:
