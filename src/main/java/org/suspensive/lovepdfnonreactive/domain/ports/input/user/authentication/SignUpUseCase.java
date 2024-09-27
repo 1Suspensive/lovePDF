@@ -1,4 +1,4 @@
-package org.suspensive.lovepdfnonreactive.domain.ports.input.authentication;
+package org.suspensive.lovepdfnonreactive.domain.ports.input.user.authentication;
 
 import org.suspensive.lovepdfnonreactive.domain.models.dto.AuthResponseDTO;
 import org.suspensive.lovepdfnonreactive.domain.models.dto.AuthSignUpRequestDTO;

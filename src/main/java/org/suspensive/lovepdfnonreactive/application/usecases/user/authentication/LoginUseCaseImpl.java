@@ -1,4 +1,4 @@
-package org.suspensive.lovepdfnonreactive.application.usecases.authentication;
+package org.suspensive.lovepdfnonreactive.application.usecases.user.authentication;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.suspensive.lovepdfnonreactive.domain.models.dto.AuthResponseDTO;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.UserNotFoundException;
-import org.suspensive.lovepdfnonreactive.domain.ports.input.authentication.LoginUseCase;
+import org.suspensive.lovepdfnonreactive.domain.ports.input.user.authentication.LoginUseCase;
 import org.suspensive.lovepdfnonreactive.domain.ports.output.JwtPort;
 
 @Component

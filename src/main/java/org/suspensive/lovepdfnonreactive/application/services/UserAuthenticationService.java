@@ -1,5 +1,6 @@
 package org.suspensive.lovepdfnonreactive.application.services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -8,24 +9,19 @@ import org.suspensive.lovepdfnonreactive.domain.models.dto.AuthResponseDTO;
 import org.suspensive.lovepdfnonreactive.domain.models.dto.AuthSignUpRequestDTO;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.UserAlreadyExistsException;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.UserNotFoundException;
-import org.suspensive.lovepdfnonreactive.domain.ports.input.authentication.LoginUseCase;
-import org.suspensive.lovepdfnonreactive.domain.ports.input.authentication.SignUpUseCase;
+import org.suspensive.lovepdfnonreactive.domain.ports.input.user.authentication.LoginUseCase;
+import org.suspensive.lovepdfnonreactive.domain.ports.input.user.authentication.SignUpUseCase;
 import org.suspensive.lovepdfnonreactive.domain.ports.output.UserPersistencePort;
 
 @Service
+@AllArgsConstructor
 public class UserAuthenticationService implements UserDetailsService {
 
     private final UserPersistencePort userPersistencePort;
     private final SignUpUseCase signUpUseCase;
     private final LoginUseCase loginUseCase;
 
-
-    public UserAuthenticationService(UserPersistencePort userPersistencePort, SignUpUseCase signUpUseCase, LoginUseCase loginUseCase) {
-        this.userPersistencePort = userPersistencePort;
-        this.signUpUseCase = signUpUseCase;
-        this.loginUseCase = loginUseCase;
-    }
-
+    //It loads the user by email
     @Override
     public UserDetails loadUserByUsername(String email){
         try {

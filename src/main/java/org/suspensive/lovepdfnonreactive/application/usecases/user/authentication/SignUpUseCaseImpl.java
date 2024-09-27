@@ -1,4 +1,4 @@
-package org.suspensive.lovepdfnonreactive.application.usecases.authentication;
+package org.suspensive.lovepdfnonreactive.application.usecases.user.authentication;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -7,11 +7,12 @@ import org.suspensive.lovepdfnonreactive.domain.models.dto.AuthResponseDTO;
 import org.suspensive.lovepdfnonreactive.domain.models.dto.AuthSignUpRequestDTO;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.UserAlreadyExistsException;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.UserNotFoundException;
-import org.suspensive.lovepdfnonreactive.domain.ports.input.authentication.SignUpUseCase;
+import org.suspensive.lovepdfnonreactive.domain.ports.input.user.authentication.SignUpUseCase;
 import org.suspensive.lovepdfnonreactive.domain.ports.output.JwtPort;
 import org.suspensive.lovepdfnonreactive.domain.ports.output.UserPersistencePort;
 import org.suspensive.lovepdfnonreactive.domain.models.Role;
 
+import java.util.HashMap;
 import java.util.Set;
 
 @Component
@@ -42,6 +43,8 @@ public class SignUpUseCaseImpl implements SignUpUseCase {
                             .email(authSignUpRequestDTO.email())
                             .roles(Set.of(Role.DEFAULT_ROLE))
                             .status(true)
+                    //Initialize the pdfs map
+                            .pdfs(new HashMap<>())
                     .build());
             return new AuthResponseDTO(userSaved.getUsername(), "User created successfully", jwtPort.generateToken(userSaved), true);
         }

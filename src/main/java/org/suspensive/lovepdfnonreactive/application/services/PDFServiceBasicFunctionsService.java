@@ -1,5 +1,6 @@
 package org.suspensive.lovepdfnonreactive.application.services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.*;
@@ -10,7 +11,8 @@ import org.suspensive.lovepdfnonreactive.domain.ports.input.utils.CreateZIPFileU
 import java.io.IOException;
 
 @Service
-public class PDFService {
+@AllArgsConstructor
+public class PDFServiceBasicFunctionsService {
 
     private final LoadPDFAsPDDocumentUseCase loadPDFUseCase;
     private final MergePDFsUseCase mergePDFsUseCase;
@@ -19,16 +21,6 @@ public class PDFService {
     private final RemovePDFPagesUseCase removePDFPagesUseCase;
     private final EncryptPDFUseCase encryptPDFUseCase;
     private final DecryptPDFUseCase decryptPDFUseCase;
-
-    public PDFService(LoadPDFAsPDDocumentUseCase loadPDFAsPDDocumentUseCase, MergePDFsUseCase mergePDFsUseCase, SplitPDFUseCase splitPDFUseCase, CreateZIPFileUseCase createZIPFileUseCase, RemovePDFPagesUseCase removePDFPagesUseCase, EncryptPDFUseCase encryptPDFUseCase, DecryptPDFUseCase decryptPDFUseCase) {
-        this.loadPDFUseCase = loadPDFAsPDDocumentUseCase;
-        this.mergePDFsUseCase = mergePDFsUseCase;
-        this.splitPDFUseCase = splitPDFUseCase;
-        this.createZIPFileUseCase = createZIPFileUseCase;
-        this.removePDFPagesUseCase = removePDFPagesUseCase;
-        this.encryptPDFUseCase = encryptPDFUseCase;
-        this.decryptPDFUseCase = decryptPDFUseCase;
-    }
 
     //Returns a merged pdf
     public byte[] mergePDFs(MultipartFile pdf1, MultipartFile pdf2) throws MaximumSizeExceededException, IOException, PDFNotLoadedException, PDFMergerException {

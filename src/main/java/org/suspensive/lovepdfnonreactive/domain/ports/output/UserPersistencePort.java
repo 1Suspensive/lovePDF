@@ -6,4 +6,5 @@ import org.suspensive.lovepdfnonreactive.domain.models.exceptions.UserNotFoundEx
 public interface UserPersistencePort {
     User findUserByEmail(String email) throws UserNotFoundException;
     User saveUser(User user);
+    User findUserByUsername(String username) throws UserNotFoundException;
 }

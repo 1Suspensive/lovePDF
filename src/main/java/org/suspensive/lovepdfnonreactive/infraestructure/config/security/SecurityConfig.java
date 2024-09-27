@@ -39,7 +39,11 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
-                    http.requestMatchers(HttpMethod.GET, "user/hello").hasRole(Role.DEFAULT_ROLE.getRoleName());
+                    //Private Requests
+                    http.requestMatchers(HttpMethod.GET, "user/pdfs/**").hasRole(Role.DEFAULT_ROLE.getRoleName());
+                    http.requestMatchers(HttpMethod.POST, "user/pdfs/upload").hasRole(Role.DEFAULT_ROLE.getRoleName());
+                    http.requestMatchers(HttpMethod.DELETE, "user/pdfs/**").hasRole(Role.DEFAULT_ROLE.getRoleName());
+
                     http.anyRequest().permitAll();
                 })
                 .addFilterAfter(new JwtFilter(jwtUtils), BasicAuthenticationFilter.class)

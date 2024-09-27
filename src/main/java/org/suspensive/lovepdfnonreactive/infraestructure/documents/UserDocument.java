@@ -10,10 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.suspensive.lovepdfnonreactive.domain.models.Role;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Document(value = "users")
 @Data
@@ -21,12 +18,16 @@ import java.util.Set;
 public class UserDocument implements UserDetails {
     @Id
     private String id;
+    @Indexed(unique = true)
     private String username;
     private String password;
     @Indexed(unique = true)
     private String email;
     private Set<Role> roles;
     private boolean status;
+    private Map<String,byte[]> pdfs;
+
+    private UserDocument(){}
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

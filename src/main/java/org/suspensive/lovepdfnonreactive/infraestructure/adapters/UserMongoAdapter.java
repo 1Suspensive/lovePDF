@@ -28,4 +28,10 @@ public class UserMongoAdapter implements UserPersistencePort {
     public User saveUser(User user) {
         return UserMapper.mapToModel(userRepository.save(UserMapper.mapToDocument(user)));
     }
+
+    @Override
+    public User findUserByUsername(String username) throws UserNotFoundException {
+        return UserMapper.mapToModel(userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User with username: " + username+" does not exist")));
+    }
 }

@@ -1,5 +1,6 @@
 package org.suspensive.lovepdfnonreactive.infraestructure.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,12 +24,12 @@ public class UserAuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthLoginRequestDTO loginRequest) throws UserNotFoundException {
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthLoginRequestDTO loginRequest) throws UserNotFoundException {
         return new ResponseEntity<>(userAuthenticationService.login(loginRequest), HttpStatus.OK);
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<AuthResponseDTO> signUp(@RequestBody AuthSignUpRequestDTO request) throws UserAlreadyExistsException {
+    public ResponseEntity<AuthResponseDTO> signUp(@Valid @RequestBody AuthSignUpRequestDTO request) throws UserAlreadyExistsException {
         return new ResponseEntity<>(userAuthenticationService.signUp(request), HttpStatus.CREATED);
     }
 
