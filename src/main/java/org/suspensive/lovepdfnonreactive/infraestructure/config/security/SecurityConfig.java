@@ -40,8 +40,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
                     //Private Requests
-                    http.requestMatchers(HttpMethod.GET, "user/pdfs/**").hasRole(Role.DEFAULT_ROLE.getRoleName());
-                    http.requestMatchers(HttpMethod.POST, "user/pdfs/upload").hasRole(Role.DEFAULT_ROLE.getRoleName());
+                    http.requestMatchers(HttpMethod.GET, "user/pdfs/**").hasAuthority("DOWNLOAD");
+                    http.requestMatchers(HttpMethod.POST, "user/pdfs/upload").hasAuthority("UPLOAD");
                     http.requestMatchers(HttpMethod.DELETE, "user/pdfs/**").hasRole(Role.DEFAULT_ROLE.getRoleName());
 
                     http.anyRequest().permitAll();

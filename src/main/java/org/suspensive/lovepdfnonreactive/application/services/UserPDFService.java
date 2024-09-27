@@ -3,6 +3,7 @@ package org.suspensive.lovepdfnonreactive.application.services;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.suspensive.lovepdfnonreactive.domain.models.exceptions.PDFAlreadyExistsException;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.PDFNotFoundException;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.UserNotFoundException;
 import org.suspensive.lovepdfnonreactive.domain.ports.input.user.pdf.DeletePDFByNameUseCase;
@@ -40,10 +41,10 @@ public class UserPDFService {
         return pdf;
     }
 
-    public void uploadPDF(MultipartFile pdfFile) throws UserNotFoundException, IOException {
+    public void uploadPDF(MultipartFile pdfFile) throws UserNotFoundException, PDFAlreadyExistsException, IOException {
         boolean status = uploadPDFUseCase.uploadPDF(getPrincipalName(), pdfFile);
         if (!status) {
-            throw new IOException("Error uploading PDF, pdf with same name already exists");
+            throw new PDFAlreadyExistsException("Error uploading PDF, pdf with same name already exists");
         }
     }
 

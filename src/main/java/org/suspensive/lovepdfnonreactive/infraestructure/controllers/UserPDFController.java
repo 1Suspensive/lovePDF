@@ -5,14 +5,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.suspensive.lovepdfnonreactive.application.services.UserPDFService;
+import org.suspensive.lovepdfnonreactive.domain.models.exceptions.PDFAlreadyExistsException;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.PDFNotFoundException;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.UserNotFoundException;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.Collections;
 import java.util.Map;
 
-@RestController("/user/pdfs")
+@RestController
+@RequestMapping("/user/pdfs")
 public class UserPDFController {
     private final UserPDFService userPDFService;
 
@@ -25,14 +28,19 @@ public class UserPDFController {
         return new ResponseEntity<>(userPDFService.getAllPDFs(), HttpStatus.OK);
     }
 
-    @GetMapping("/{pdfName}")
+    @GetMapping(value = "/{pdfName}",produces = "application/pdf")
     public ResponseEntity<byte[]> getPDFByName(@PathVariable("pdfName") String pdfName) throws UserNotFoundException, PDFNotFoundException {
         return new ResponseEntity<>(userPDFService.getPDFByName(pdfName),HttpStatus.OK);
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Map<String,String>> uploadPDF(@RequestParam("pdf") MultipartFile pdfFile) throws UserNotFoundException, IOException {
-        userPDFService.uploadPDF(pdfFile);
+    public ResponseEntity<Map<String,String>> uploadPDF(@RequestParam("pdf") MultipartFile pdfFile) throws UserNotFoundException, IOException, PDFAlreadyExistsException {
+        // Exception to handle when the file is deleted from tomcat server
+        try{
+            userPDFService.uploadPDF(pdfFile);
+        }catch (NoSuchFileException e){
+            return null;
+        }
         return new ResponseEntity<>(Collections.singletonMap("message","PDF uploaded successfully"),HttpStatus.CREATED);
     }
 

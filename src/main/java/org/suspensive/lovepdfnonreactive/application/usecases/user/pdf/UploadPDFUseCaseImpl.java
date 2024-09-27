@@ -1,5 +1,6 @@
 package org.suspensive.lovepdfnonreactive.application.usecases.user.pdf;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.suspensive.lovepdfnonreactive.domain.models.User;
@@ -10,6 +11,7 @@ import org.suspensive.lovepdfnonreactive.domain.ports.output.UserPersistencePort
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class UploadPDFUseCaseImpl implements UploadPDFUseCase {
     private final UserPersistencePort userPersistencePort;
 
@@ -19,12 +21,13 @@ public class UploadPDFUseCaseImpl implements UploadPDFUseCase {
 
     @Override
     public boolean uploadPDF(String username, MultipartFile pdfFile) throws IOException, UserNotFoundException {
-        String fileName = pdfFile.getOriginalFilename();
+        String fileName = pdfFile.getOriginalFilename().substring(0, pdfFile.getOriginalFilename().lastIndexOf('.'));
         byte[] pdf = pdfFile.getBytes();
         User user = userPersistencePort.findUserByUsername(username);
         if (user.getPdfs().containsKey(fileName)) {
             return false;
         }
+        log.info(username);
         user.getPdfs().put(fileName, pdf);
         userPersistencePort.saveUser(user);
         return true;
