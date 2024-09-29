@@ -3,6 +3,7 @@ package org.suspensive.lovepdfnonreactive.infraestructure.controllers;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.suspensive.lovepdfnonreactive.application.services.UserAuthenticationService;
@@ -24,7 +25,7 @@ public class UserAuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthLoginRequestDTO loginRequest) throws UserNotFoundException {
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthLoginRequestDTO loginRequest) throws UserNotFoundException, BadCredentialsException {
         return new ResponseEntity<>(userAuthenticationService.login(loginRequest), HttpStatus.OK);
     }
 

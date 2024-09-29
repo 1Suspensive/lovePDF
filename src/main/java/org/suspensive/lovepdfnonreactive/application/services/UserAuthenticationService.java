@@ -1,6 +1,7 @@
 package org.suspensive.lovepdfnonreactive.application.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class UserAuthenticationService implements UserDetailsService {
         return signUpUseCase.signUp(request);
     }
 
-    public AuthResponseDTO login(AuthLoginRequestDTO request) throws UserNotFoundException {
+    public AuthResponseDTO login(AuthLoginRequestDTO request) throws UserNotFoundException, BadCredentialsException {
         return loginUseCase.login(loadUserByUsername(request.email()), request.password());
     }
 

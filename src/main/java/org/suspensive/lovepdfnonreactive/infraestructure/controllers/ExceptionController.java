@@ -3,6 +3,7 @@ package org.suspensive.lovepdfnonreactive.infraestructure.controllers;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.suspensive.lovepdfnonreactive.domain.models.exceptions.*;
@@ -20,6 +21,11 @@ public class ExceptionController {
     @ExceptionHandler({UserAlreadyExistsException.class})
     public ResponseEntity<Map<String, String>> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
         return new ResponseEntity<>(Collections.singletonMap("message", e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({BadCredentialsException.class})
+    public ResponseEntity<Map<String, String>> handleBadCredentialsException(BadCredentialsException e) {
+        return new ResponseEntity<>(Collections.singletonMap("message", e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({MaximumSizeExceededException.class})

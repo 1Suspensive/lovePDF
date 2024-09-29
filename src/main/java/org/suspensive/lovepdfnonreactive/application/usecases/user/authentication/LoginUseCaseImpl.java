@@ -21,7 +21,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     @Override
-    public AuthResponseDTO login(UserDetails userFound, String password) throws UserNotFoundException {
+    public AuthResponseDTO login(UserDetails userFound, String password) throws UserNotFoundException, BadCredentialsException {
         if(userFound == null){
             throw new UserNotFoundException("User not found");
         }
