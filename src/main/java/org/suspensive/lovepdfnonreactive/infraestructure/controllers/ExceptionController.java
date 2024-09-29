@@ -30,7 +30,7 @@ public class ExceptionController {
 
     @ExceptionHandler({MaximumSizeExceededException.class})
     public ResponseEntity<Map<String, String>> handleMaximumSizeExceededException(MaximumSizeExceededException e) {
-        return new ResponseEntity<>(Collections.singletonMap("message", e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(Collections.singletonMap("message", e.getMessage()), HttpStatus.PAYLOAD_TOO_LARGE);
     }
 
     @ExceptionHandler({PDFMergerException.class})
